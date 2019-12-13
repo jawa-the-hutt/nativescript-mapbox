@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
     private _sideDrawerTransition: DrawerTransitionBase;
 
     constructor(
-      private router: Router, 
+      private router: Router,
       private routerExtensions: RouterExtensions,
       private eventsService: EventsService,
       private debugService: DebugService
@@ -77,7 +77,7 @@ export class AppComponent implements OnInit {
 
     onNavItemTap(navItemRoute: string): void {
 
-        console.log( "AppComponent::onNavItemTap(): '" + navItemRoute + "' ---- '" + this.debugService.incrementCounter( navItemRoute ) );
+        // console.log( "AppComponent::onNavItemTap(): '" + navItemRoute + "' ---- '" + this.debugService.incrementCounter( navItemRoute ) );
 
         this.routerExtensions.navigate([navItemRoute], {
           transition: {

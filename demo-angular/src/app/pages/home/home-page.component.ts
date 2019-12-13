@@ -4,8 +4,8 @@
 * @author Yermo Lamers, Flying Brick Software, LLC
 */
 
-import { 
-  Component, 
+import {
+  Component,
   OnInit,
   OnDestroy
 } from "@angular/core";
@@ -23,10 +23,10 @@ import { RouterExtensions } from "nativescript-angular/router";
 
 import { openAppSettings } from 'nativescript-advanced-permissions/core';
 
-import { 
-  hasLocationPermissions, 
-  requestLocationPermissions, 
-  isLocationEnabled 
+import {
+  hasLocationPermissions,
+  requestLocationPermissions,
+  isLocationEnabled
 } from 'nativescript-advanced-permissions/location';
 
 // the Mapbox access token and the Mapbox map style to use are set
@@ -62,14 +62,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
   constructor(
     private routerExtensions: RouterExtensions
   ) {
-    console.log( "HomePageComponent:constructor()")
+    // console.log( "HomePageComponent:constructor()")
   } // end of constructor
 
   // -----------------------------------------------------
 
   ngOnInit(): void {
 
-    console.log( "HomePageComponent:ngOnInit(): checking for location services." );
+    // console.log( "HomePageComponent:ngOnInit(): checking for location services." );
 
 /** ----------------------------------------------------------------
 * temporarily disabled
@@ -87,23 +87,23 @@ export class HomePageComponent implements OnInit, OnDestroy {
 
     if ( hasLocationPermissions() ) {
 
-      console.log( "HomePageComponent:ngOnInit(): we have location permissions." );
+      // console.log( "HomePageComponent:ngOnInit(): we have location permissions." );
 
       this.locationPermission = true;
 
       return;
 
-    } 
+    }
 
     // it seems the hasPermission return value here is always true under Android.
 
     requestLocationPermissions( true, "We use this permission to show you your current location and to give you the ability to track your rides." ).then( ( hasPermission ) => {
 
-      console.log( "HomePageComponent:ngOnInit(): hasPermission is:", hasPermission );
+      // console.log( "HomePageComponent:ngOnInit(): hasPermission is:", hasPermission );
 
       if ( hasLocationPermissions() ) {
 
-        console.log( "HomePageComponent:ngOnInit(): we have been granted location permissions." );
+        // console.log( "HomePageComponent:ngOnInit(): we have been granted location permissions." );
 
         this.locationPermission = true;
 
@@ -118,7 +118,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       }
     });
 
----------------------------------------------- */ 
+---------------------------------------------- */
   }
 
   // -------------------------------------------------

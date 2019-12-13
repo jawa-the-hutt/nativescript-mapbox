@@ -27,7 +27,7 @@ export class HelloWorldModel extends Observable {
 
   constructor() {
     super();
-    console.log( "HelloWorldModel::constructor()" );
+    // console.log( "HelloWorldModel::constructor()" );
   }
 
   // --------------------------------------------------------------------
@@ -38,7 +38,7 @@ export class HelloWorldModel extends Observable {
 
   public doShow( args ): void {
 
-    console.log( "HelloWorldModel::doShow(): top" );
+    // console.log( "HelloWorldModel::doShow(): top" );
 
     // the idea is to get a reference to a container component,
     // in this case the StackLayout, and then to add a programmatically created
@@ -87,13 +87,13 @@ export class HelloWorldModel extends Observable {
           title: 'Nice location',
           subtitle: 'Really really nice location',
           iconPath: 'res/markers/green_pin_marker.png',
-          onTap: () => console.log("'Nice location' marker tapped"),
-          onCalloutTap: () => console.log("'Nice location' marker callout tapped")
+          onTap: () => { console.log("'Nice location' marker tapped") },
+          onCalloutTap: () => { console.log("'Nice location' marker callout tapped") }
         }
       ]
     };
 
-    console.log( "main-view-model:: doShow(): creating new MapboxView." );
+    // console.log( "main-view-model:: doShow(): creating new MapboxView." );
 
     const mapView = new MapboxView();
 
@@ -103,7 +103,7 @@ export class HelloWorldModel extends Observable {
 
     mapView.on( 'mapReady', ( args : any ) => {
 
-      console.log( "main-view-model: onMapReady fired." );
+      // console.log( "main-view-model: onMapReady fired." );
 
       // this is an instance of class MapboxView
 
@@ -114,12 +114,12 @@ export class HelloWorldModel extends Observable {
       this.mapbox = this.mapboxView.getMapboxApi();
 
       this.mapbox.setOnMapClickListener( point => {
-        console.log(`>> Map clicked: ${JSON.stringify(point)}`);
+        // console.log(`>> Map clicked: ${JSON.stringify(point)}`);
         return true;
       });
 
       this.mapbox.setOnMapLongClickListener( point => {
-        console.log(`>> Map longpressed: ${JSON.stringify(point)}`);
+        // console.log(`>> Map longpressed: ${JSON.stringify(point)}`);
         return true;
       });
 
@@ -128,12 +128,12 @@ export class HelloWorldModel extends Observable {
       });
 
       this.mapbox.setOnFlingListener(() => {
-        console.log(`>> Map flinged"`);
-      }).catch( err => console.log(err) );
+        // console.log(`>> Map flinged"`);
+      }).catch( err => { console.log(err)} );
 
     });
 
-    console.log( "main-view-model:: doShow(): adding MapboxView to container." );
+    // console.log( "main-view-model:: doShow(): adding MapboxView to container." );
 
     contentView.content = mapView;
 
@@ -144,10 +144,10 @@ export class HelloWorldModel extends Observable {
   public doHide(): void {
     this.mapbox.hide().then(
         () => {
-          console.log("HelloWorldModel::doHide(): Mapbox hide done");
+          // console.log("HelloWorldModel::doHide(): Mapbox hide done");
         },
         (error: string) => {
-          console.log("mapbox hide error: " + error);
+          // console.log("mapbox hide error: " + error);
         }
     );
   }
@@ -157,10 +157,10 @@ export class HelloWorldModel extends Observable {
   public doDestroy(): void {
     this.mapbox.destroy().then(
         () => {
-          console.log( "HelloWorldModel::doDestroy(): Mapbox destroyed" );
+          // console.log( "HelloWorldModel::doDestroy(): Mapbox destroyed" );
         },
         (error: string) => {
-          console.log("mapbox destroy error: " + error);
+          // console.log("mapbox destroy error: " + error);
         }
     );
   }
@@ -170,10 +170,10 @@ export class HelloWorldModel extends Observable {
   public doUnhide(): void {
     this.mapbox.unhide().then(
         () => {
-          console.log("HelloWorldModel::doUnHide(): Mapbox doUnhide done");
+          // console.log("HelloWorldModel::doUnHide(): Mapbox doUnhide done");
         },
         (error: string) => {
-          console.log("mapbox doUnhide error: " + error);
+          // console.log("mapbox doUnhide error: " + error);
         }
     );
   }
@@ -182,8 +182,8 @@ export class HelloWorldModel extends Observable {
 
   public doRemoveAllMarkers(): void {
     this.mapbox.removeMarkers().then(
-        () => console.log("Mapbox doRemoveAllMarkers done"),
-        error => console.log("mapbox doRemoveAllMarkers error: " + error)
+        () => {console.log("Mapbox doRemoveAllMarkers done")},
+        error => {console.log("mapbox doRemoveAllMarkers error: " + error)}
     );
   }
 
@@ -191,17 +191,17 @@ export class HelloWorldModel extends Observable {
 
   public doRemove2Markers(): void {
     this.mapbox.removeMarkers([2, 3]).then(
-        () => console.log("Mapbox doRemove2Markers done"),
-        error => console.log("mapbox doRemove2Markers error: " + error)
+        () => {console.log("Mapbox doRemove2Markers done")},
+        error => {console.log("mapbox doRemove2Markers error: " + error)}
     );
   }
 
   // -------------------------------------------------------------------------------
 
   public doAddMarkers(): void {
-    const onTap = (marker: MapboxMarker) => console.log(`Marker tapped with title: ${marker.title}`);
+    const onTap = (marker: MapboxMarker) => {console.log(`Marker tapped with title: ${marker.title}`)};
 
-    const onCalloutTap = (marker: MapboxMarker) => alert(`Marker callout tapped with title: ${marker.title}`);
+    const onCalloutTap = (marker: MapboxMarker) => {alert(`Marker callout tapped with title: ${marker.title}`)};
 
     const firstMarker = <MapboxMarker>{
       id: 2,
@@ -222,8 +222,8 @@ export class HelloWorldModel extends Observable {
         title: 'One-line title here (UPDATE)',
         subtitle: 'Updated subtitle',
         selected: true,
-        onTap: (marker: MapboxMarker) => console.log(`UPDATED Marker tapped with title: ${marker.title}`),
-        onCalloutTap: (marker: MapboxMarker) => alert(`UPDATED Marker callout tapped with title: ${marker.title}`)
+        onTap: (marker: MapboxMarker) => {console.log(`UPDATED Marker tapped with title: ${marker.title}`)},
+        onCalloutTap: (marker: MapboxMarker) => {alert(`UPDATED Marker callout tapped with title: ${marker.title}`)}
       })
     }, 8000);
 
@@ -245,7 +245,7 @@ export class HelloWorldModel extends Observable {
         id: 3,
         lat: 52.3602160,
         lng: 5,
-        onTap: () => console.log("Titleless marker tapped!"),
+        onTap: () => {console.log("Titleless marker tapped!")},
         icon: 'http://www.bme.be/wp-content/uploads/2014/04/marker.png'
       },
       {
@@ -266,12 +266,12 @@ export class HelloWorldModel extends Observable {
         title: 'This title is cut off on iOS, but multi-line on Android', // no popup unless set
         subtitle: 'Same for this subtitle. Same for this subtitle. Same for this subtitle. Same for this subtitle. Same for this subtitle.',
         icon: 'https://maryjanekirkland.com/wp-content/uploads/2016/01/map-marker.png',
-        onTap: () => console.log("Marker tapped"),
-        onCalloutTap: () => console.log("Marker callout tapped")
+        onTap: () => {console.log("Marker tapped")},
+        onCalloutTap: () => {console.log("Marker callout tapped")}
       }
     ]).then(
-        () => console.log("Mapbox addMarkers done"),
-        error => console.log("mapbox addMarkers error: " + error)
+        () => {console.log("Mapbox addMarkers done")},
+        error => {console.log("mapbox addMarkers error: " + error)}
     );
   }
 
@@ -287,7 +287,7 @@ export class HelloWorldModel extends Observable {
           };
           alert(alertOptions);
         },
-        (error: string) => console.log("mapbox doGetViewport error: " + error)
+        (error: string) => {console.log("mapbox doGetViewport error: " + error)}
     );
   }
 
@@ -305,8 +305,8 @@ export class HelloWorldModel extends Observable {
           animated: true // default true
         }
     ).then(
-        () => console.log("Viewport set"),
-        (error: string) => console.log("mapbox doSetViewport error: " + error)
+        () => {console.log("Viewport set")},
+        (error: string) => {console.log("mapbox doSetViewport error: " + error)}
     );
   }
 
@@ -330,7 +330,7 @@ export class HelloWorldModel extends Observable {
             west: 4.6816
           },
           onProgress: (progress: DownloadProgress) => {
-            console.log(`Download progress: ${JSON.stringify(progress)}`);
+            // console.log(`Download progress: ${JSON.stringify(progress)}`);
           }
         }
     ).then(
@@ -342,7 +342,7 @@ export class HelloWorldModel extends Observable {
           };
           alert(alertOptions);
         },
-        error => console.log("mapbox doDownloadAmsterdam error: " + error)
+        error => {console.log("mapbox doDownloadAmsterdam error: " + error)}
     );
 
     let alertOptions: AlertOptions = {
@@ -366,7 +366,7 @@ export class HelloWorldModel extends Observable {
                 minZoom: viewport.zoomLevel,
                 maxZoom: viewport.zoomLevel + 2,
                 bounds: viewport.bounds,
-                onProgress: (progress: DownloadProgress) => console.log(`Download progress: ${JSON.stringify(progress)}`)
+                onProgress: (progress: DownloadProgress) => {console.log(`Download progress: ${JSON.stringify(progress)}`)}
               }
           ).then(
               () => {
@@ -377,7 +377,7 @@ export class HelloWorldModel extends Observable {
                 };
                 alert(alertOptions);
               },
-              (error: string) => console.log("mapbox doDownloadCurrentViewportAsOfflineRegion error: " + error)
+              (error: string) => {console.log("mapbox doDownloadCurrentViewportAsOfflineRegion error: " + error)}
           );
         },
         (error: string) => {
@@ -426,7 +426,7 @@ export class HelloWorldModel extends Observable {
               });
         },
         (error: string) => {
-          console.log("mapbox doAddAndClusterGeoJSON error: " + error);
+          // console.log("mapbox doAddAndClusterGeoJSON error: " + error);
         }
     );
   }
@@ -493,7 +493,7 @@ export class HelloWorldModel extends Observable {
           alert(alertOptions);
         },
         (error: string) => {
-          console.log("mapbox getTilt error: " + error);
+          // console.log("mapbox getTilt error: " + error);
         }
     );
   }
@@ -511,7 +511,7 @@ export class HelloWorldModel extends Observable {
           alert(alertOptions);
         },
         (error: string) => {
-          console.log("mapbox getUserLocation error: " + error);
+          // console.log("mapbox getUserLocation error: " + error);
         }
     );
   }
@@ -522,7 +522,7 @@ export class HelloWorldModel extends Observable {
     this.mapbox.trackUser({
       mode: "TRACKING_GPS",
       animated: true
-    }).then(() => console.log("Following"));
+    }).then(() => {console.log("Following")});
   }
 
   // -------------------------------------------------------------------------------
@@ -535,10 +535,10 @@ export class HelloWorldModel extends Observable {
         }
     ).then(
         () => {
-          console.log("Mapbox doSetTilt done");
+          // console.log("Mapbox doSetTilt done");
         },
         (error: string) => {
-          console.log("mapbox doSetTilt error: " + error);
+          // console.log("mapbox doSetTilt error: " + error);
         }
     );
   }
@@ -560,10 +560,10 @@ export class HelloWorldModel extends Observable {
         }
     ).then(
         result => {
-          console.log("Mapbox doAnimateCamera done");
+          // console.log("Mapbox doAnimateCamera done");
         },
         (error: string) => {
-          console.log("mapbox doAnimateCamera error: " + error);
+          // console.log("mapbox doAnimateCamera error: " + error);
         }
     );
   }
@@ -579,10 +579,10 @@ export class HelloWorldModel extends Observable {
         }
     ).then(
         result => {
-          console.log("Mapbox setCenter done");
+          // console.log("Mapbox setCenter done");
         },
         (error: string) => {
-          console.log("mapbox setCenter error: " + error);
+          // console.log("mapbox setCenter error: " + error);
         }
     );
   }
@@ -600,7 +600,7 @@ export class HelloWorldModel extends Observable {
           alert(alertOptions);
         },
         (error: string) => {
-          console.log("mapbox getCenter error: " + error);
+          // console.log("mapbox getCenter error: " + error);
         }
     );
   }
@@ -618,7 +618,7 @@ export class HelloWorldModel extends Observable {
           alert(alertOptions);
         },
         (error: string) => {
-          console.log("mapbox getCenter error: " + error);
+          // console.log("mapbox getCenter error: " + error);
         }
     );
   }
@@ -633,10 +633,10 @@ export class HelloWorldModel extends Observable {
         }
     ).then(
         result => {
-          console.log("Mapbox setZoomLevel done");
+          // console.log("Mapbox setZoomLevel done");
         },
         (error: string) => {
-          console.log("mapbox setZoomLevel error: " + error);
+          // console.log("mapbox setZoomLevel error: " + error);
         }
     );
   }
@@ -678,8 +678,8 @@ export class HelloWorldModel extends Observable {
             }
           ]
         })
-        .then(result => console.log("Mapbox addPolygon done"))
-        .catch((error: string) => console.log("mapbox addPolygon error: " + error));
+        .then(result => {console.log("Mapbox addPolygon done")})
+        .catch((error: string) => {console.log("mapbox addPolygon error: " + error)});
   }
 
   // -------------------------------------------------------------------------------
@@ -722,10 +722,10 @@ export class HelloWorldModel extends Observable {
       ]
     }).then(
         result => {
-          console.log("Mapbox addPolyline done");
+          // console.log("Mapbox addPolyline done");
         },
         (error: string) => {
-          console.log("mapbox addPolyline error: " + error);
+          // console.log("mapbox addPolyline error: " + error);
         }
     );
   }
@@ -734,8 +734,8 @@ export class HelloWorldModel extends Observable {
 
   public doRemovePolyline(): void {
     this.mapbox.removePolylines([1]).then(
-        result => console.log("Mapbox removePolylines done"),
-        (error: string) => console.log("mapbox removePolylines error: " + error)
+        result => {console.log("Mapbox removePolylines done")},
+        (error: string) => {console.log("mapbox removePolylines error: " + error)}
     );
   }
 
@@ -743,8 +743,8 @@ export class HelloWorldModel extends Observable {
 
   public doRemovePolygon(): void {
     this.mapbox.removePolygons([1]).then(
-        result => console.log("Mapbox removePolygons done"),
-        (error: string) => console.log("mapbox removePolygons error: " + error)
+        result => {console.log("Mapbox removePolygons done")},
+        (error: string) => {console.log("mapbox removePolygons error: " + error)}
     );
   }
 
@@ -768,7 +768,7 @@ export class HelloWorldModel extends Observable {
   public doRequestFineLocationPermission(): void {
     this.mapbox.requestFineLocationPermission().then(
         () => {
-          console.log("Fine Location permission requested");
+          // console.log("Fine Location permission requested");
         }
     );
   }

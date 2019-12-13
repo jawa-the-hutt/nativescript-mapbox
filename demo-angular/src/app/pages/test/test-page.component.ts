@@ -17,11 +17,11 @@ export class TestPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log( "TestPageComponent::ngOnInit()" );
+    // console.log( "TestPageComponent::ngOnInit()" );
   }
 
   ngOnDestroy(): void {
-    console.log( "TestPageComponent::ngOnDestroy()" );
+    // console.log( "TestPageComponent::ngOnDestroy()" );
   }
 
   onDrawerButtonTap(): void {

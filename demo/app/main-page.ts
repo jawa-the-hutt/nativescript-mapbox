@@ -16,7 +16,7 @@ export function pageLoaded(args: observable.EventData) {
 
   let page = <pages.Page>args.object;
 
-  console.log( "main-page::pageLoaded(): callback" );
+  // console.log( "main-page::pageLoaded(): callback" );
 
   // avoid creating duplicates of the model onPause/onResume.
 
@@ -33,20 +33,20 @@ export function pageLoaded(args: observable.EventData) {
 
 export function onLocationPermissionGranted(args) {
 
-  console.log( "main-page::locationPermissionGranted(): callback" );
+  // console.log( "main-page::locationPermissionGranted(): callback" );
 
   let map: MapboxViewApi = args.map;
-  console.log("onLocationPermissionGranted, map: " + map);
+  // console.log("onLocationPermissionGranted, map: " + map);
 }
 
 // -----------------------------------------------------------
 
 export function onLocationPermissionDenied(args) {
 
-  console.log( "main-page::locationPermissionDenied(): callback" );
+  // console.log( "main-page::locationPermissionDenied(): callback" );
 
   let map: MapboxViewApi = args.map;
-  console.log( "main-page::onLocationPermissionDenied, map: " + map );
+  // console.log( "main-page::onLocationPermissionDenied, map: " + map );
 
 }
 
@@ -65,7 +65,7 @@ export function onLocationPermissionDenied(args) {
 
 export function onMapReady(args) {
 
-  console.log( "main-page::mapReady(): callback" );
+  // console.log( "main-page::mapReady(): callback" );
 
   let map: MapboxViewApi = args.map;
 
@@ -73,27 +73,27 @@ export function onMapReady(args) {
 
   const nativeMapView = args.ios ? args.ios : args.android;
 
-  console.log( `main-page::Mapbox onMapReady for ${args.ios ? "iOS" : "Android"}, native object received: ${nativeMapView}` );
+  // console.log( `main-page::Mapbox onMapReady for ${args.ios ? "iOS" : "Android"}, native object received: ${nativeMapView}` );
 
   map.setOnMapClickListener( (point: LatLng) => {
-    console.log(`Map tapped: ${JSON.stringify(point)}`);
+    // console.log(`Map tapped: ${JSON.stringify(point)}`);
     return true;
   });
 
   map.setOnMapLongClickListener( (point: LatLng) => {
-    console.log(`Map longpressed: ${JSON.stringify(point)}`);
+    // console.log(`Map longpressed: ${JSON.stringify(point)}`);
     return true;
   });
 
   // this works perfectly fine, but generates a lot of noise
-  // map.setOnScrollListener((point?: LatLng) => console.log(`Map scrolled: ${JSON.stringify(point)}`));
+  // map.setOnScrollListener((point?: LatLng) => { console.log(`Map scrolled: ${JSON.stringify(point)}`)) };
 
   // this allows json style loading for XYZ or TMS tiles source
   // map.setMapStyle("~/OSM-map-style.json");
 
   // .. or use the convenience methods exposed on args.map, for instance:
 
-  console.log( "main-page: before adding marker" );
+  // console.log( "main-page: before adding marker" );
 
   map.addMarkers([
     {
@@ -104,10 +104,10 @@ export function onMapReady(args) {
       subtitle: 'Really really nice location',
       iconPath: 'res/markers/green_pin_marker.png',
       onTap: () => {
-        console.log("main-page 'Nice location' marker tapped");
+        // console.log("main-page 'Nice location' marker tapped");
       },
       onCalloutTap: () => {
-        console.log("main-page 'Nice location' marker callout tapped");
+        // console.log("main-page 'Nice location' marker callout tapped");
       }
     }]
   ).then(() => {
@@ -118,10 +118,10 @@ export function onMapReady(args) {
           lat: 52.3602160,
           lng: 4.8891680
         }
-      }).then(result => console.log(JSON.stringify(result)));
+      }).then(result => { console.log(JSON.stringify(result))});
     }, 1000);
   }).catch( ( error ) => {
-    console.error( "main-page: error adding markers:", error );
+    // console.error( "main-page: error adding markers:", error );
   });
 
   setTimeout(() => {

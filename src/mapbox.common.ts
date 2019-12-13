@@ -762,7 +762,7 @@ export abstract class MapboxViewCommonBase extends ContentView implements Mapbox
 
   public onMapEvent( eventName, id, callback ) : void {
 
-    console.log( "MapboxViewCommonBase:on(): top" );
+    // // // console.log( "MapboxViewCommonBase:on(): top" );
 
     return this.mapbox.onMapEvent( eventName, id, callback, this.getNativeMapView() );
   }
@@ -1003,7 +1003,7 @@ export abstract class MapboxViewCommonBase extends ContentView implements Mapbox
 
   onResume( nativeMap?: any ): Promise<any> {
 
-    console.log( "MapboxViewCommonBase:onResume(): with nativeView:", this.getNativeMapView() );
+    // console.log( "MapboxViewCommonBase:onResume(): with nativeView:", this.getNativeMapView() );
 
     return this.mapbox.onResume( this.getNativeMapView() );
   }
@@ -1012,7 +1012,7 @@ export abstract class MapboxViewCommonBase extends ContentView implements Mapbox
 
   onPause( nativeMap?: any ): Promise<any> {
 
-    console.log( "MapboxViewCommonBase:onPause(): with nativeView:", this.getNativeMapView() );
+    // console.log( "MapboxViewCommonBase:onPause(): with nativeView:", this.getNativeMapView() );
 
     return this.mapbox.onPause( this.getNativeMapView() );
   }
@@ -1156,13 +1156,13 @@ export abstract class MapboxViewBase extends MapboxViewCommonBase {
   }
 
   [mapStyleProperty.setNative](value: string) {
-    console.log( "MapboxViewBase::mapStyle.setNative(): setting value '" + value + "'" );
+    // console.log( "MapboxViewBase::mapStyle.setNative(): setting value '" + value + "'" );
     this.config.style = value;
     this.config.mapStyle = value;
   }
 
   [accessTokenProperty.setNative](value: string) {
-    console.log( "MapboxViewBase::accessTokenProperty.setNative(): setting value '" + value + "'" );
+    // console.log( "MapboxViewBase::accessTokenProperty.setNative(): setting value '" + value + "'" );
     this.config.accessToken = value;
   }
 

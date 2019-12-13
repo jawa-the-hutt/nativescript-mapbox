@@ -4,23 +4,23 @@
 
 import { Injectable } from "@angular/core";
 
-import { 
+import {
   ios,
   android,
-  displayedEvent, 
-  exitEvent, 
-  launchEvent,  
-  lowMemoryEvent, 
-  orientationChangedEvent, 
-  resumeEvent, 
-  suspendEvent, 
-  uncaughtErrorEvent, 
-  ApplicationEventData, 
-  LaunchEventData, 
-  OrientationChangedEventData, 
+  displayedEvent,
+  exitEvent,
+  launchEvent,
+  lowMemoryEvent,
+  orientationChangedEvent,
+  resumeEvent,
+  suspendEvent,
+  uncaughtErrorEvent,
+  ApplicationEventData,
+  LaunchEventData,
+  OrientationChangedEventData,
   UnhandledErrorEventData,
-  on as applicationOn, 
-  run as applicationRun 
+  on as applicationOn,
+  run as applicationRun
 } from "tns-core-modules/application";
 
 import { EventsService } from './events.service';
@@ -67,20 +67,20 @@ export class PlatformService {
       this.readyPromiseResolver = resolve;
     });
 
-    // on application launch. 
+    // on application launch.
 
     applicationOn( launchEvent, (args: LaunchEventData ) => {
       if (args.android) {
 
         // For Android applications, args.android is an android.content.Intent class.
 
-        console.log("PlatformService:constructor(): Launched Android application with the following intent: " + args.android + ".");
+        // console.log("PlatformService:constructor(): Launched Android application with the following intent: " + args.android + ".");
 
       } else if (args.ios !== undefined) {
 
         // For iOS applications, args.ios is NSDictionary (launchOptions).
 
-        console.log( "PlatformService:constructor(): Launched iOS application with options: " + args.ios);
+        // console.log( "PlatformService:constructor(): Launched iOS application with options: " + args.ios);
 
       }
 
@@ -96,12 +96,12 @@ export class PlatformService {
 
         // For Android applications, args.android is an android activity class.
 
-        console.log("PlatformService:constructor(): Activity suspend: " + args.android);
+        // console.log("PlatformService:constructor(): Activity suspend: " + args.android);
 
       } else if (args.ios) {
 
         // For iOS applications, args.ios is UIApplication.
-        console.log("PlatformService:constructor(): UIApplication suspend: " + args.ios);
+        // console.log("PlatformService:constructor(): UIApplication suspend: " + args.ios);
 
       }
 
@@ -118,12 +118,12 @@ export class PlatformService {
       if (args.android) {
 
         // For Android applications, args.android is an android activity class.
-        console.log( "PlatformService:constructor(): Activity resume: " + args.android );
+        // console.log( "PlatformService:constructor(): Activity resume: " + args.android );
 
       } else if (args.ios) {
 
         // For iOS applications, args.ios is UIApplication.
-        console.log( "PlatformService:constructor(): UIApplication resume: " + args.ios);
+        // console.log( "PlatformService:constructor(): UIApplication resume: " + args.ios);
 
       }
 
@@ -134,22 +134,22 @@ export class PlatformService {
     });
 
     applicationOn(displayedEvent, (args: ApplicationEventData) => {
-      console.log( "PlatformService:constructor(): displayedEvent" );
+      // console.log( "PlatformService:constructor(): displayedEvent" );
       this.events.publish( 'platform:displayed', {} );
     });
 
     applicationOn(orientationChangedEvent, (args: OrientationChangedEventData) => {
       // "portrait", "landscape", "unknown"
-      console.log(args.newValue)
+      // console.log(args.newValue)
     });
 
     applicationOn(exitEvent, (args: ApplicationEventData) => {
       if (args.android) {
         // For Android applications, args.android is an android activity class.
-        console.log("PlatformService:constructor(): Activity exit: " + args.android);
+        // console.log("PlatformService:constructor(): Activity exit: " + args.android);
       } else if (args.ios) {
         // For iOS applications, args.ios is UIApplication.
-        console.log("PlatformService:constructor(): UIApplication exit: " + args.ios);
+        // console.log("PlatformService:constructor(): UIApplication exit: " + args.ios);
       }
 
       this.events.publish( 'platform:exit', {} );
@@ -159,10 +159,10 @@ export class PlatformService {
     applicationOn(lowMemoryEvent, (args: ApplicationEventData) => {
       if (args.android) {
         // For Android applications, args.android is an android activity class.
-        console.log("PlatformService:constructor(): Activity low memory: " + args.android);
+        // console.log("PlatformService:constructor(): Activity low memory: " + args.android);
       } else if (args.ios) {
         // For iOS applications, args.ios is UIApplication.
-        console.log("PlatformService:constructor(): UIApplication low memory: " + args.ios);
+        // console.log("PlatformService:constructor(): UIApplication low memory: " + args.ios);
       }
 
       this.events.publish( 'platform:lowmemory', {} );
@@ -170,7 +170,7 @@ export class PlatformService {
     });
 
     applicationOn(uncaughtErrorEvent, function (args: UnhandledErrorEventData) {
-      console.log("PlatformService:constructor(): Error: " + args.error);
+      // console.log("PlatformService:constructor(): Error: " + args.error);
     });
 
   } // end of constructor
@@ -198,7 +198,7 @@ export class PlatformService {
   * return the platform ready promise
   */
 
-  ready() { 
+  ready() {
     return this.readyPromise;
   }
 

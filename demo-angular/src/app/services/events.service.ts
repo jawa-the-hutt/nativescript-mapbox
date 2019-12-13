@@ -28,7 +28,7 @@ export class EventsService {
 
   subscribe( topic: string, ...handlers: EventHandler[] ) {
 
-    console.log( "EventsService:subscribe(): subscribing to topic '" + topic + "'" );
+    // console.log( "EventsService:subscribe(): subscribing to topic '" + topic + "'" );
 
     let topics = this.c.get(topic);
     if (!topics) {
@@ -36,7 +36,7 @@ export class EventsService {
     }
     topics.push(...handlers);
 
-    console.log( "EventsService:subscribe(): there are now '" + topics.length + "' subscriptions to '" + topic + "'" );
+    // console.log( "EventsService:subscribe(): there are now '" + topics.length + "' subscriptions to '" + topic + "'" );
 
   }
 
@@ -88,18 +88,18 @@ export class EventsService {
     const topics = this.c.get(topic);
     if (!topics) {
 
-      console.log( "EventsService:publish(): no subscribers for topic '" + topic + "'" );
+      // console.log( "EventsService:publish(): no subscribers for topic '" + topic + "'" );
 
       return null;
     }
 
-    console.log( "EventsService:publish(): publishing topic '" + topic + "' to '" + topics.length + "' subscribers." );
+    // console.log( "EventsService:publish(): publishing topic '" + topic + "' to '" + topics.length + "' subscribers." );
 
     return topics.map(handler => {
       try {
         return handler(...args);
       } catch (e) {
-        console.error(e);
+        // console.error(e);
         return null;
       }
     });

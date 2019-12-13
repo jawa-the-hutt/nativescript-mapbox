@@ -41,8 +41,8 @@ import { GeoUtils } from './geo.utils';
 
 export { MapStyle };
 
-let _markers = [];
-let _markerIconDownloadCache = [];
+let _markers: any[] = [];
+let _markerIconDownloadCache: any[] = [];
 let _mapView: MGLMapView;
 let _mapbox: any = {};
 let _delegate: any;
@@ -146,7 +146,7 @@ export class MapboxView extends MapboxViewBase {
 
   setConfig( settings : any ) {
 
-    console.log( "MapboxView::setConfig(): settings:", settings );
+    // console.log( "MapboxView::setConfig(): settings:", settings );
 
     this.settings = settings;
   }
@@ -161,7 +161,7 @@ export class MapboxView extends MapboxViewBase {
 
   public createNativeView(): Object {
 
-    console.log( "MapboxView::createNativeView(): top" );
+    // console.log( "MapboxView::createNativeView(): top" );
 
     let v = super.createNativeView();
     return v;
@@ -185,33 +185,33 @@ export class MapboxView extends MapboxViewBase {
 
   public initNativeView(): void {
 
-    console.log( "MapboxView::initNativeView(): top" );
+    // console.log( "MapboxView::initNativeView(): top" );
 
     (<any>this.nativeView).owner = this;
     super.initNativeView();
 
-    console.log( "MapboxView::initNativeView(): after super.initNativeView()" );
+    // console.log( "MapboxView::initNativeView(): after super.initNativeView()" );
 
     // wait for the view to be fully loaded before initializing the map
 
     this.on( 'loaded', () => {
-      console.log( "MapboxView::initNativeView(): on - loaded" );
+      // console.log( "MapboxView::initNativeView(): on - loaded" );
 
       if ( ! this.initialized ) {
 
-        console.log( "MapboxView::initNativeView(): initializing map" );
+        // console.log( "MapboxView::initNativeView(): initializing map" );
 
         this.initMap();
         this.initialized = true;
       } else {
-        console.log( "MapboxView::initNativeView(): map already initialized." );
+        // console.log( "MapboxView::initNativeView(): map already initialized." );
       }
 
     });
 
     this.on( 'unloaded', () => {
 
-      console.log( "MapboxView::initNativeView(): on - unloaded" );
+      // console.log( "MapboxView::initNativeView(): on - unloaded" );
 
     });
 
@@ -231,17 +231,17 @@ export class MapboxView extends MapboxViewBase {
 
   async disposeNativeView(): Promise<void> {
 
-    console.log( "MapboxView::disposeNativeView(): top" );
+    // console.log( "MapboxView::disposeNativeView(): top" );
 
     (<any>this.nativeView).owner = null;
 
     await this.mapbox.destroy();
 
-    console.log( "MapboxView::disposeNativeView(): after mapbox.destroy()" );
+    // console.log( "MapboxView::disposeNativeView(): after mapbox.destroy()" );
 
     super.disposeNativeView();
 
-    console.log( "MapboxView::disposeNativeView(): bottom" );
+    // console.log( "MapboxView::disposeNativeView(): bottom" );
 
   }
 
@@ -269,7 +269,7 @@ export class MapboxView extends MapboxViewBase {
 
   initMap(): void {
 
-    console.log( "MapboxView::initMap() top with settings:", this.settings );
+    // console.log( "MapboxView::initMap() top with settings:", this.settings );
 
     // FIXME: HACK: if we are arriving here because of an XML parse the property evaluations may not have
     // happened yet. This needs to be redone, but for the moment we'll assume the accessToken is done 
@@ -279,7 +279,7 @@ export class MapboxView extends MapboxViewBase {
 
     if ( ! this.settings && ! this.config.accessToken ) {
 
-      console.log( "MapboxView::initMap() no access token. Race condition on XML property evaluation?" );
+      // console.log( "MapboxView::initMap() no access token. Race condition on XML property evaluation?" );
 
       // If the user didn't specify an accessToken we don't want to loop forever
 
@@ -309,7 +309,7 @@ export class MapboxView extends MapboxViewBase {
 
       this.mapbox = new Mapbox();
 
-      console.log( "MapboxView::initMap(): after new Mapbox()" );
+      // console.log( "MapboxView::initMap(): after new Mapbox()" );
 
       // called in a setTimeout call at the bottom.
 
@@ -327,7 +327,7 @@ export class MapboxView extends MapboxViewBase {
 
         this.nativeMapView.delegate = this.delegate = MGLMapViewDelegateImpl.new().initWithCallback( () => {
 
-          console.log( "MapboxView:initMap(): MLMapViewDeleteImpl onMapReady callback" );
+          // console.log( "MapboxView:initMap(): MLMapViewDeleteImpl onMapReady callback" );
 
           this.notify({
             eventName: MapboxViewBase.mapReadyEvent,
@@ -356,7 +356,7 @@ export class MapboxView extends MapboxViewBase {
 
         this.mapbox.setOnMoveBeginListener( (data?: LatLng) => {
 
-          console.log( "MapboxView::initMap(): onMoveBegin listener" );
+          // console.log( "MapboxView::initMap(): onMoveBegin listener" );
 
           this.notify({
             eventName: MapboxViewBase.moveBeginEvent,
@@ -465,7 +465,7 @@ export class CustomUserLocationAnnotationView extends MGLUserLocationAnnotationV
 
   drawTrackingLocationMarker() {
 
-    console.log( "CustomerUserLocationAnnotatinView::drawTrackingLocationMarker()" );
+    // console.log( "CustomerUserLocationAnnotatinView::drawTrackingLocationMarker()" );
 
     this.drawTrackingDot();
     this.drawArrow();
@@ -478,7 +478,7 @@ export class CustomUserLocationAnnotationView extends MGLUserLocationAnnotationV
 
   drawNonTrackingLocationMarker() {
 
-    console.log( "CustomerUserLocationAnnotatinView::drawNonTrackingLocationMarker()" );
+    // console.log( "CustomerUserLocationAnnotatinView::drawNonTrackingLocationMarker()" );
 
     this.drawNonTrackingDot();
 
@@ -682,7 +682,7 @@ export class CustomUserLocationAnnotationView extends MGLUserLocationAnnotationV
 
   changeUserLocationRenderMode( renderMode ) {
 
-    console.log( "CustomUserLocationAnnotatinView::changeUserLocationRenderMode(): changing mode to '" + renderMode + "'" );
+    // console.log( "CustomUserLocationAnnotatinView::changeUserLocationRenderMode(): changing mode to '" + renderMode + "'" );
 
     this.userLocationRenderMode = renderMode;
 
@@ -728,7 +728,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
   initEventHandlerShim( settings: any, mapboxNativeViewInstance : any ) {
 
-    console.log( "Mapbox:initEventHandlerShim(): top" );
+    // console.log( "Mapbox:initEventHandlerShim(): top" );
 
     this.setOnMapClickListener( ( point: LatLng ) => {
       return this.checkForCircleClickEvent( point );
@@ -774,13 +774,13 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
   private checkForCircleClickEvent( point : LatLng ) {
 
-    console.log( "Mapbox:checkForCircleClickEvent(): got click event with point:", point );
+    // console.log( "Mapbox:checkForCircleClickEvent(): got click event with point:", point );
 
     // is this point within a circle?
 
     for ( let i = 0; i < this.circles.length; i++ ) {
 
-      console.log( "Mapbox:checkForCircleClickEvent(): checking circle with radius:", this.circles[i].radius );
+      // console.log( "Mapbox:checkForCircleClickEvent(): checking circle with radius:", this.circles[i].radius );
 
       if ( GeoUtils.isLocationInCircle( 
         point.lng,
@@ -789,14 +789,14 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         this.circles[i].center[1],
         this.circles[i].radius )) {
 
-        console.log( "Mapbox:checkForCircleClickEvent() Point is in circle with id '" + this.circles[i].id + "' invoking callbacks, if any. Callback list is:", this.eventCallbacks );
+        // console.log( "Mapbox:checkForCircleClickEvent() Point is in circle with id '" + this.circles[i].id + "' invoking callbacks, if any. Callback list is:", this.eventCallbacks );
 
         for ( let x = 0; x < this.eventCallbacks[ 'click' ].length; x++ ) {
           let entry = this.eventCallbacks[ 'click' ][ x ];
 
           if ( entry.id == this.circles[i].id ) {
 
-            console.log( "Mapbox:checkForCircleClickEvent(): calling callback for '" + entry.id + "'" );
+            // console.log( "Mapbox:checkForCircleClickEvent(): calling callback for '" + entry.id + "'" );
 
             return entry.callback( point );
 
@@ -872,7 +872,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         }, 500);
 
       } catch (ex) {
-        console.log("Error in mapbox.show: " + ex);
+        // console.log("Error in mapbox.show: " + ex);
         reject(ex);
       }
     });
@@ -886,7 +886,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         }
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.hide: " + ex);
+        // console.log("Error in mapbox.hide: " + ex);
         reject(ex);
       }
     });
@@ -903,7 +903,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
           reject("No map found");
         }
       } catch (ex) {
-        console.log("Error in mapbox.unhide: " + ex);
+        // console.log("Error in mapbox.unhide: " + ex);
         reject(ex);
       }
     });
@@ -1005,7 +1005,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         delegate.setStyleLoadedCallback( ( mapView ) => {
 
-          console.log( "Mapbox:setMapStyle(): style loaded callback returned." );
+          // console.log( "Mapbox:setMapStyle(): style loaded callback returned." );
 
           resolve();
         });
@@ -1013,7 +1013,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         theMap.styleURL = _getMapStyle(style);
 
       } catch (ex) {
-        console.log("Error in mapbox.setMapStyle: " + ex);
+        // console.log("Error in mapbox.setMapStyle: " + ex);
         reject(ex);
       }
     });
@@ -1026,7 +1026,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         _addMarkers(markers, theMap);
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.addMarkers: " + ex);
+        // console.log("Error in mapbox.addMarkers: " + ex);
         reject(ex);
       }
     });
@@ -1055,7 +1055,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         }
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.removeMarkers: " + ex);
+        // console.log("Error in mapbox.removeMarkers: " + ex);
         reject(ex);
       }
     });
@@ -1070,7 +1070,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         theMap.setCenterCoordinateAnimated(coordinate, animated);
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.setCenter: " + ex);
+        // console.log("Error in mapbox.setCenter: " + ex);
         reject(ex);
       }
     });
@@ -1086,7 +1086,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
           lng: coordinate.longitude
         });
       } catch (ex) {
-        console.log("Error in mapbox.getCenter: " + ex);
+        // console.log("Error in mapbox.getCenter: " + ex);
         reject(ex);
       }
     });
@@ -1105,7 +1105,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
           reject("invalid zoomlevel, use any double value from 0 to 20 (like 8.3)");
         }
       } catch (ex) {
-        console.log("Error in mapbox.setZoomLevel: " + ex);
+        // console.log("Error in mapbox.setZoomLevel: " + ex);
         reject(ex);
       }
     });
@@ -1117,7 +1117,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         let theMap: MGLMapView = nativeMap || _mapbox.mapView;
         resolve(theMap.zoomLevel);
       } catch (ex) {
-        console.log("Error in mapbox.getZoomLevel: " + ex);
+        // console.log("Error in mapbox.getZoomLevel: " + ex);
         reject(ex);
       }
     });
@@ -1143,7 +1143,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
           resolve();
         }, durationMs);
       } catch (ex) {
-        console.log("Error in mapbox.setTilt: " + ex);
+        // console.log("Error in mapbox.setTilt: " + ex);
         reject(ex);
       }
     });
@@ -1155,7 +1155,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         let theMap: MGLMapView = nativeMap || _mapbox.mapView;
         resolve(theMap.camera.pitch);
       } catch (ex) {
-        console.log("Error in mapbox.getTilt: " + ex);
+        // console.log("Error in mapbox.getTilt: " + ex);
         reject(ex);
       }
     });
@@ -1178,7 +1178,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
           });
         }
       } catch (ex) {
-        console.log("Error in mapbox.getUserLocation: " + ex);
+        // console.log("Error in mapbox.getUserLocation: " + ex);
         reject(ex);
       }
     });
@@ -1201,12 +1201,12 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
       case "NONE_COMPASS":
 
-        console.log( "MapboxView::_stringToCameraMode(): NONE_COMPASS unsupported on iOS" );
+        // console.log( "MapboxView::_stringToCameraMode(): NONE_COMPASS unsupported on iOS" );
         return MGLUserTrackingMode.None;
 
       case "NONE_GPS":
 
-        console.log( "MapboxView::_stringToCameraMode(): NONE_GPS unsupported on iOS" );
+        // console.log( "MapboxView::_stringToCameraMode(): NONE_GPS unsupported on iOS" );
         return MGLUserTrackingMode.None;
 
       case "TRACKING":
@@ -1302,7 +1302,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         resolve();
 
       } catch (ex) {
-        console.log("Error in mapbox.getUserLocation: " + ex);
+        // console.log("Error in mapbox.getUserLocation: " + ex);
         reject(ex);
       }
     });
@@ -1325,7 +1325,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         resolve();
 
       } catch (ex) {
-        console.log("Error in mapbox.getUserLocation: " + ex);
+        // console.log("Error in mapbox.getUserLocation: " + ex);
         reject(ex);
       }
     });
@@ -1351,7 +1351,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         let theMap: MGLMapView = nativeMap || _mapbox.mapView;
         
-        console.log( "Mapbox::changeUserLocationMarkerMode(): changing renderMode to '" + renderModeString + "' cameraMode '" + cameraModeString + "'" );
+        // console.log( "Mapbox::changeUserLocationMarkerMode(): changing renderMode to '" + renderModeString + "' cameraMode '" + cameraModeString + "'" );
 
         theMap.userTrackingMode = this._stringToCameraMode( cameraModeString );
 
@@ -1360,7 +1360,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         delegate.changeUserLocationRenderMode( renderMode );
 
       } catch (ex) {
-        console.log("Error in mapbox.showUserLocationMarker: " + ex);
+        // console.log("Error in mapbox.showUserLocationMarker: " + ex);
         reject(ex);
       }
     });
@@ -1414,7 +1414,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         resolve(result);
       } catch (ex) {
-        console.log("Error in mapbox.queryRenderedFeatures: " + ex);
+        // console.log("Error in mapbox.queryRenderedFeatures: " + ex);
         reject(ex);
       }
     });
@@ -1599,7 +1599,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
           resolve();
         }, durationMs);
       } catch (ex) {
-        console.log("Error in mapbox.animateCamera: " + ex);
+        // console.log("Error in mapbox.animateCamera: " + ex);
         reject(ex);
       }
     });
@@ -1638,7 +1638,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.setOnMapClickListener: " + ex);
+        // console.log("Error in mapbox.setOnMapClickListener: " + ex);
         reject(ex);
       }
     });
@@ -1670,7 +1670,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.setOnMapClickListener: " + ex);
+        // console.log("Error in mapbox.setOnMapClickListener: " + ex);
         reject(ex);
       }
     });
@@ -1700,7 +1700,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.setOnScrollListener: " + ex);
+        // console.log("Error in mapbox.setOnScrollListener: " + ex);
         reject(ex);
       }
     });
@@ -1744,7 +1744,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.setOnScrollListener: " + ex);
+        // console.log("Error in mapbox.setOnScrollListener: " + ex);
         reject(ex);
       }
     });
@@ -1789,7 +1789,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
           zoomLevel: theMap.zoomLevel
         });
       } catch (ex) {
-        console.log("Error in mapbox.getViewport: " + ex);
+        // console.log("Error in mapbox.getViewport: " + ex);
         reject(ex);
       }
     });
@@ -1822,7 +1822,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         theMap.setVisibleCoordinateBoundsEdgePaddingAnimated(bounds, padding, animated);
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.setViewport: " + ex);
+        // console.log("Error in mapbox.setViewport: " + ex);
         reject(ex);
       }
     });
@@ -1886,7 +1886,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
           let offlinePack = notification.object;
           let userInfo = NSKeyedUnarchiver.unarchiveObjectWithData(offlinePack.context);
           let maximumCount = notification.userInfo[MGLOfflinePackUserInfoKeyMaximumCount];
-          console.log(`Offline region '${userInfo.objectForKey("name")}' reached the tile limit of ${maximumCount}`);
+          // console.log(`Offline region '${userInfo.objectForKey("name")}' reached the tile limit of ${maximumCount}`);
         });
 
         // Store some data for identification purposes alongside the downloaded resources.
@@ -1905,7 +1905,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         });
 
       } catch (ex) {
-        console.log("Error in mapbox.downloadOfflineRegion: " + ex);
+        // console.log("Error in mapbox.downloadOfflineRegion: " + ex);
         reject(ex);
       }
     });
@@ -1941,7 +1941,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         resolve(regions);
 
       } catch (ex) {
-        console.log("Error in mapbox.listOfflineRegions: " + ex);
+        // console.log("Error in mapbox.listOfflineRegions: " + ex);
         reject(ex);
       }
     });
@@ -1979,7 +1979,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
           reject("Region not found");
         }
       } catch (ex) {
-        console.log("Error in mapbox.deleteOfflineRegion: " + ex);
+        // console.log("Error in mapbox.deleteOfflineRegion: " + ex);
         reject(ex);
       }
     });
@@ -1997,7 +1997,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.deleteOfflineRegion: " + ex);
+        // console.log("Error in mapbox.deleteOfflineRegion: " + ex);
         reject(ex);
       }
     });
@@ -2073,7 +2073,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
                 clCoordsArray[ i ] = newCoord;
               }
 
-              console.log( "Mapbox:addSource(): after CLLocationCoordinate2D array before creating polyline source from clCoordsArray" );
+              // console.log( "Mapbox:addSource(): after CLLocationCoordinate2D array before creating polyline source from clCoordsArray" );
 
               let polyline = MGLPolylineFeature.polylineWithCoordinatesCount( new interop.Reference( CLLocationCoordinate2D, clCoordsArray ), coordinates.length );
 
@@ -2099,7 +2099,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
               // FIXME: should be able to just call addSource here for type geoJson
 
-              console.log( "Mapbox:addSource(): before addSource with options:", options );
+              // console.log( "Mapbox:addSource(): before addSource with options:", options );
 
               const geoJSON = `{"type": "FeatureCollection", "features": [ ${JSON.stringify(options.data)}]}`;
 
@@ -2110,31 +2110,31 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
                 return;
               }
 
-              console.log( "Mapbox:addSource(): after checking for existing style" );
+              // console.log( "Mapbox:addSource(): after checking for existing style" );
 
               const geoDataStr = NSString.stringWithString( geoJSON );
 
-              console.log( "Mapbox:addSource(): after string" );
+              // console.log( "Mapbox:addSource(): after string" );
 
               const geoData = geoDataStr.dataUsingEncoding( NSUTF8StringEncoding );
 
-              console.log( "Mapbox:addSource(): after encoding" );
+              // console.log( "Mapbox:addSource(): after encoding" );
 
               const geoDataBase64Enc = geoData.base64EncodedStringWithOptions(0);
 
-              console.log( "Mapbox:addSource(): before alloc" );
+              // console.log( "Mapbox:addSource(): before alloc" );
 
               const geo = NSData.alloc().initWithBase64EncodedStringOptions( geoDataBase64Enc, null );
 
-              console.log( "Mapbox:addSource(): before shape with id '" + id + "'" );
+              // console.log( "Mapbox:addSource(): before shape with id '" + id + "'" );
 
               const shape = MGLShape.shapeWithDataEncodingError( geo, NSUTF8StringEncoding );
 
-              console.log( "Mapbox:addSource(): after shape before second alloc with id '" + id + "' and shape '" + shape + "'");
+              // console.log( "Mapbox:addSource(): after shape before second alloc with id '" + id + "' and shape '" + shape + "'");
         
               const source = MGLShapeSource.alloc().initWithIdentifierShapeOptions( id, shape, null );
 
-              console.log( "Mapbox:addSource(): before addSource" );
+              // console.log( "Mapbox:addSource(): before addSource" );
 
               theMap.style.addSource( source );
 
@@ -2157,7 +2157,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         if (!source) {
           const ex = "No source to add";
-          console.log("Error in mapbox.addSource: " + ex);
+          // console.log("Error in mapbox.addSource: " + ex);
           reject(ex);
           return;
         }
@@ -2165,7 +2165,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         theMap.style.addSource(source);
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.addSource: " + ex);
+        // console.log("Error in mapbox.addSource: " + ex);
         reject(ex);
       }
     });
@@ -2213,7 +2213,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.removeSource: " + ex);
+        // console.log("Error in mapbox.removeSource: " + ex);
         reject(ex);
       }
     });
@@ -2283,11 +2283,11 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         const theMap: MGLMapView = nativeMapViewInstance || _mapbox.mapView;
 
-        console.log( "Mapbox::removeLayer(): attempting to remove layer '" + id + "'" );
+        // console.log( "Mapbox::removeLayer(): attempting to remove layer '" + id + "'" );
 
         let layer = theMap.style.layerWithIdentifier( id );
 
-        console.log( "Mapbox:removeLayer(): got layer object: ", layer );
+        // console.log( "Mapbox:removeLayer(): got layer object: ", layer );
 
         if ( ! layer ) {
           throw new Error( "Layer '" + id + "' not found when attempting to remove it." ); 
@@ -2295,12 +2295,12 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         theMap.style.removeLayer(layer);
 
-        console.log( "Mapbox:removeLayer(): after removing layer " + id );
+        // console.log( "Mapbox:removeLayer(): after removing layer " + id );
 
         resolve();
 
       } catch (ex) {
-        console.log( "Mapbox:removeLayer() Error : " + ex );
+        // console.log( "Mapbox:removeLayer() Error : " + ex );
         reject(ex);
       }
 
@@ -2417,7 +2417,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         layer.lineColor = NSExpression.expressionForConstantValue( new Color( color ).ios );
 
-        console.log( "Mapbox:addLineLayer(): after line color" );
+        // console.log( "Mapbox:addLineLayer(): after line color" );
 
         // line width
 
@@ -2429,7 +2429,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         layer.lineWidth = NSExpression.expressionForConstantValue( width );
 
-        console.log( "Mapbox:addLineLayer(): after line width" );
+        // console.log( "Mapbox:addLineLayer(): after line width" );
 
         let opacity = 1;
 
@@ -2439,7 +2439,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         layer.lineOpacity = NSExpression.expressionForConstantValue( opacity );
 
-        console.log( "Mapbox:addLineLayer(): after opacity" );
+        // console.log( "Mapbox:addLineLayer(): after opacity" );
 
         // line dash array
  
@@ -2457,7 +2457,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         theMap.style.addLayer(layer);
 
-        console.log( "Mapbox:addLineLayer(): after adding layer." );
+        // console.log( "Mapbox:addLineLayer(): after adding layer." );
 
         let lineEntry = this.lines.find( ( entry ) => { return entry.id == sourceId; });
 
@@ -2465,12 +2465,12 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
           lineEntry.layer = layer;
         }
 
-        console.log( "Mapbox:addLineLayer(): pushed line:", this.lines[ this.lines.length - 1 ] );
+        // console.log( "Mapbox:addLineLayer(): pushed line:", this.lines[ this.lines.length - 1 ] );
 
         resolve();
 
       } catch (ex) {
-        console.log( "Mapbox:addLineLayer() Error : " + ex);
+        // console.log( "Mapbox:addLineLayer() Error : " + ex);
         reject(ex);
       }
 
@@ -2553,7 +2553,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         resolve();
       } catch (ex) {
 
-        console.log( "Mapbox:addLinePoint() Error : " + ex);
+        // console.log( "Mapbox:addLinePoint() Error : " + ex);
         reject(ex);
 
       }
@@ -2644,7 +2644,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         }
 
-        console.log( "Mapbox:addCircleLayer(): after adding source" );
+        // console.log( "Mapbox:addCircleLayer(): after adding source" );
 
         const layer = MGLCircleStyleLayer.alloc().initWithIdentifierSource( style.id, theMap.style.sourceWithIdentifier( sourceId ) );
 
@@ -2658,7 +2658,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         layer.circleColor = NSExpression.expressionForConstantValue( new Color( color ).ios );
 
-        console.log( "Mapbox:addCircleLayer(): after circle color" );
+        // console.log( "Mapbox:addCircleLayer(): after circle color" );
 
         // stroke color
 
@@ -2680,7 +2680,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         layer.circleStrokeWidth = NSExpression.expressionForConstantValue( width );
 
-        console.log( "Mapbox:addCircleLayer(): after stroke width" );
+        // console.log( "Mapbox:addCircleLayer(): after stroke width" );
 
         let opacity = 1;
 
@@ -2690,7 +2690,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         layer.circleOpacity = NSExpression.expressionForConstantValue( opacity );
 
-        console.log( "Mapbox:addCircleLayer(): after opacity" );
+        // console.log( "Mapbox:addCircleLayer(): after opacity" );
 
         // we have two options for a radius. We might have a fixed float or an expression 
 
@@ -2710,7 +2710,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
           let stopKeys = [];
           let stopValues = [];
 
-          console.log( "Mapbox:addCircleLayer(): adding '" + style.paint[ 'circle-radius' ].stops.length + "' stops" );
+          // console.log( "Mapbox:addCircleLayer(): adding '" + style.paint[ 'circle-radius' ].stops.length + "' stops" );
 
           // this took forever to figure out. There is some NativeScript bug and the type definition for
           // NSExpression is not clear. We have to create an NSDictionary with two arrays. The first array is the 
@@ -2728,7 +2728,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
             base = style.paint[ 'circle-radius' ].stops.base;
           }
 
-          console.log( "Mapbox:addCircleLayer(): pushing circleRadius with base:", base );
+          // console.log( "Mapbox:addCircleLayer(): pushing circleRadius with base:", base );
 
           let nsDict = new (NSDictionary as any)( stopValues, stopKeys );
 
@@ -2738,7 +2738,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
              "mgl_interpolate:withCurveType:parameters:stops:( $zoomLevel, 'exponential', 2, %@)",
              nsArray );
 
-           console.log( "Mapbox:addCircleLayer(): after setting circle radius expression" );
+           // console.log( "Mapbox:addCircleLayer(): after setting circle radius expression" );
 
         }
 
@@ -2754,7 +2754,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
         resolve();
 
       } catch (ex) {
-        console.log( "Mapbox:addCircleLayer() Error : " + ex);
+        // console.log( "Mapbox:addCircleLayer() Error : " + ex);
         reject(ex);
       }
 
@@ -2787,7 +2787,7 @@ export class Mapbox extends MapboxCommon implements MapboxApi {
 
         resolve();
       } catch (ex) {
-        console.log("Error in mapbox.trackUser: " + ex);
+        // console.log("Error in mapbox.trackUser: " + ex);
         reject(ex);
       }
     });
@@ -2801,11 +2801,11 @@ const _addObserver = (eventName, callback) => {
 
 const _downloadImage = marker => {
   return new Promise((resolve, reject) => {
-    console.log(">> _downloadImage");
+    // console.log(">> _downloadImage");
     // to cache..
     if (_markerIconDownloadCache[marker.icon]) {
       marker.iconDownloaded = _markerIconDownloadCache[marker.icon];
-      console.log(">> marker.iconDownloaded: " + marker.iconDownloaded);
+      // console.log(">> marker.iconDownloaded: " + marker.iconDownloaded);
       resolve(marker);
       return;
     }
@@ -2816,7 +2816,7 @@ const _downloadImage = marker => {
           _markerIconDownloadCache[marker.icon] = marker.iconDownloaded;
           resolve(marker);
         }, (ignoredError) => {
-          console.log(`Download failed for ${marker.icon} with error: ${ignoredError}`);
+          // console.log(`Download failed for ${marker.icon} with error: ${ignoredError}`);
           resolve(marker);
         });
   });
@@ -2839,11 +2839,11 @@ const _downloadMarkerImages = (markers: Array<MapboxMarker>) => {
 
 const _addMarkers = (markers: MapboxMarker[], nativeMap?) => {
   if (!markers) {
-    console.log("No markers passed");
+    // console.log("No markers passed");
     return;
   }
   if (!Array.isArray(markers)) {
-    console.log("markers must be passed as an Array: [{title: 'foo'}]");
+    // console.log("markers must be passed as an Array: [{title: 'foo'}]");
     return;
   }
   let theMap: MGLMapView = nativeMap || _mapbox.mapView;
@@ -2928,7 +2928,7 @@ class MGLMapViewDelegateImpl extends NSObject implements MGLMapViewDelegate {
 
   public initWithCallback( mapLoadedCallback: (mapView: MGLMapView) => void): MGLMapViewDelegateImpl {
 
-    console.log( "MGLMapViewDelegateImpl::initWithCallback()" );
+    // console.log( "MGLMapViewDelegateImpl::initWithCallback()" );
 
     this.mapLoadedCallback = mapLoadedCallback;
     return this;
@@ -2992,7 +2992,7 @@ class MGLMapViewDelegateImpl extends NSObject implements MGLMapViewDelegate {
 
   mapViewDidFinishLoadingMap(mapView: MGLMapView): void {
 
-    console.log( "MGLMapViewDelegateImpl:mapViewDidFinishLoadingMap(): top" );
+    // console.log( "MGLMapViewDelegateImpl:mapViewDidFinishLoadingMap(): top" );
 
     if (this.mapLoadedCallback !== undefined) {
 
@@ -3009,7 +3009,7 @@ class MGLMapViewDelegateImpl extends NSObject implements MGLMapViewDelegate {
 
   mapViewDidFinishRenderingMapFullyRendered( mapView: MGLMapView, fullyRendered: boolean ) : void {
 
-    console.log( "MGLMapViewDelegateImpl:mapViewDidFinishRenderingMapFullyRendered(): rendered is:", fullyRendered );
+    // console.log( "MGLMapViewDelegateImpl:mapViewDidFinishRenderingMapFullyRendered(): rendered is:", fullyRendered );
 
   }
 
@@ -3027,7 +3027,7 @@ class MGLMapViewDelegateImpl extends NSObject implements MGLMapViewDelegate {
 
   mapViewDidFinishLoadingStyle( mapView: MGLMapView ) : void {
 
-    console.log( "MGLMapViewDelegateImpl:mapViewDidFinishLoadingStyle(): callback called." );
+    // console.log( "MGLMapViewDelegateImpl:mapViewDidFinishLoadingStyle(): callback called." );
 
     if (this.styleLoadedCallback !== undefined) {
 
@@ -3063,13 +3063,13 @@ class MGLMapViewDelegateImpl extends NSObject implements MGLMapViewDelegate {
   // -------------------------
 
   mapViewDidFailLoadingMapWithError(mapView: MGLMapView, error: NSError): void {
-    // console.log("mapViewDidFailLoadingMapWithError: " + error);
+    // // console.log("mapViewDidFailLoadingMapWithError: " + error);
   }
 
   // ---------------------------------------
 
   mapViewDidChangeUserTrackingModeAnimated(mapView: MGLMapView, mode: MGLUserTrackingMode, animated: boolean): void {
-    // console.log("mapViewDidChangeUserTrackingModeAnimated: " + mode);
+    // // console.log("mapViewDidChangeUserTrackingModeAnimated: " + mode);
   }
 
   // ----------------------------------------
@@ -3096,7 +3096,7 @@ class MGLMapViewDelegateImpl extends NSObject implements MGLMapViewDelegate {
           let resourcename = cachedMarker.icon.substring("res://".length);
           let imageSource = imgSrc.fromResource(resourcename);
           if (imageSource === null) {
-            console.log(`Unable to locate ${resourcename}`);
+            // console.log(`Unable to locate ${resourcename}`);
           } else {
             cachedMarker.reuseIdentifier = cachedMarker.icon;
             return MGLAnnotationImage.annotationImageWithImageReuseIdentifier(imageSource.ios, cachedMarker.reuseIdentifier);
@@ -3107,7 +3107,7 @@ class MGLMapViewDelegateImpl extends NSObject implements MGLMapViewDelegate {
             return MGLAnnotationImage.annotationImageWithImageReuseIdentifier(cachedMarker.iconDownloaded, cachedMarker.reuseIdentifier);
           }
         } else {
-          console.log("Please use res://resourcename, http(s)://imageurl or iconPath to use a local path");
+          // console.log("Please use res://resourcename, http(s)://imageurl or iconPath to use a local path");
         }
       } else if (cachedMarker.iconPath) {
         let appPath = fs.knownFolders.currentApp().path;
@@ -3140,10 +3140,10 @@ class MGLMapViewDelegateImpl extends NSObject implements MGLMapViewDelegate {
 
   mapViewDidSelectAnnotation(mapView: MGLMapView, annotation: MGLAnnotation): void {
 
-    console.log( "MGLMapViewDelegateImpl::mapViewDidSelectAnntation()" );
+    // console.log( "MGLMapViewDelegateImpl::mapViewDidSelectAnntation()" );
 
     if ( annotation.isKindOfClass( MGLUserLocation.class() ) ) {
-      console.log( "MGLMapViewDelegateImpl::mapViewDidSelectAnnotation(): tapped the user location button" );
+      // console.log( "MGLMapViewDelegateImpl::mapViewDidSelectAnnotation(): tapped the user location button" );
 
       if ( typeof this.userLocationClickListener != 'undefined' ) {
         this.userLocationClickListener( annotation );
@@ -3200,7 +3200,7 @@ class MGLMapViewDelegateImpl extends NSObject implements MGLMapViewDelegate {
 
   mapViewViewForAnnotation( mapView: MGLMapView, annotation: MGLAnnotation): MGLAnnotationView {
 
-    console.log( "MGLMapViewDelegateImpl::mapViewViewForAnnotation() top" );
+    // console.log( "MGLMapViewDelegateImpl::mapViewViewForAnnotation() top" );
 
     if ( annotation.isKindOfClass( MGLUserLocation.class() ) ) {
 
@@ -3303,7 +3303,7 @@ class MapPanHandlerImpl extends NSObject {
     const panPoint = recognizer.locationInView(this._mapView);
     const panCoordinate = this._mapView.convertPointToCoordinateFromView(panPoint, this._mapView);
 
-    console.log( "MapPanHandlerImpl::pan(): top with state:", recognizer.state );
+    // console.log( "MapPanHandlerImpl::pan(): top with state:", recognizer.state );
 
     // if this is the beginning of the pan simulate the Android onMoveBegin
     //
@@ -3313,7 +3313,7 @@ class MapPanHandlerImpl extends NSObject {
 
       if ( recognizer.state == UIGestureRecognizerState.Began ) {
 
-        console.log( "MapPanHandlerImpl::pan(): calling onMoveBegin listener" );
+        // console.log( "MapPanHandlerImpl::pan(): calling onMoveBegin listener" );
 
         this._listener({
           lat: panCoordinate.latitude,

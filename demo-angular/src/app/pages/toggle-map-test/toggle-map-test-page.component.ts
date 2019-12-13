@@ -4,8 +4,8 @@
 * @author Yermo Lamers, Flying Brick Software, LLC
 */
 
-import { 
-  Component, 
+import {
+  Component,
   OnInit,
   OnDestroy
 } from "@angular/core";
@@ -51,7 +51,7 @@ export class ToggleMapTestPageComponent implements OnInit, OnDestroy {
     private eventsService: EventsService,
     private debugService: DebugService
   ) {
-    console.log( "ToggleMapTestPageComponent:constructor()")
+    // console.log( "ToggleMapTestPageComponent:constructor()")
   } // end of constructor
 
   // -----------------------------------------------------
@@ -64,7 +64,7 @@ export class ToggleMapTestPageComponent implements OnInit, OnDestroy {
   toggleMapDestroy() {
 
     if ( ! this.shown ) {
-      console.log( "ToggleMapTestPageComponent::toggleMap(): ------ toggle map '" + this.debugService.incrementCounter( 'mapToggleDestroy' ) );
+      // console.log( "ToggleMapTestPageComponent::toggleMap(): ------ toggle map '" + this.debugService.incrementCounter( 'mapToggleDestroy' ) );
 
       this.eventsService.publish( "destroyMap", { mapId : 'toggleTest' } );
 
@@ -79,7 +79,7 @@ export class ToggleMapTestPageComponent implements OnInit, OnDestroy {
   toggleMap() {
 
     if ( ! this.shown ) {
-      console.log( "ToggleMapTestPageComponent::toggleMap(): ------ toggle map '" + this.debugService.incrementCounter( 'mapToggle' ) );
+      // console.log( "ToggleMapTestPageComponent::toggleMap(): ------ toggle map '" + this.debugService.incrementCounter( 'mapToggle' ) );
     }
 
     this.shown = ! this.shown;
@@ -97,7 +97,7 @@ export class ToggleMapTestPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
 
-    console.log( "ToggleMapTestPageComponent::ngOnDestroy()" );
+    // console.log( "ToggleMapTestPageComponent::ngOnDestroy()" );
 
   }
 

@@ -293,8 +293,8 @@ Add a container to your view XML where you want to programmatically add the map.
           title: 'Nice location',
           subtitle: 'Really really nice location',
           iconPath: 'res/markers/green_pin_marker.png',
-          onTap: () => console.log("'Nice location' marker tapped"),
-          onCalloutTap: () => console.log("'Nice location' marker callout tapped")
+          onTap: () => {console.log("'Nice location' marker tapped")},
+          onCalloutTap: () => {console.log("'Nice location' marker callout tapped")}
         }
       ]
     };
@@ -333,7 +333,7 @@ Add a container to your view XML where you want to programmatically add the map.
 
       this.mapbox.setOnFlingListener(() => {
         console.log(`>> Map flinged"`);
-      }).catch( err => console.log(err) );
+      }).catch( err => {console.log(err)} );
 
     });
 
@@ -388,8 +388,8 @@ You can update the map style after you've loaded it.
     icon: 'http(s)://website/coolimage.png', // from the internet (see the note at the bottom of this readme), or:
     iconPath: 'res/markers/home_marker.png',
     selected: true, // makes the callout show immediately when the marker is added (note: only 1 marker can be selected at a time)
-    onTap: marker => console.log("Marker tapped with title: '" + marker.title + "'"),
-    onCalloutTap: marker => alert("Marker callout tapped with title: '" + marker.title + "'")
+    onTap: marker => {console.log("Marker tapped with title: '" + marker.title + "'")},
+    onCalloutTap: marker => {alert("Marker callout tapped with title: '" + marker.title + "'")}
   };
 
   mapbox.addMarkers([
@@ -411,8 +411,8 @@ You can update the following properties (all but the icon really):
     title: 'One-line title here (UPDATE)',
     subtitle: 'Updated subtitle',
     selected: true, // this will trigger the callout upon update
-    onTap: (marker: MapboxMarker) => console.log(`UPDATED Marker tapped with title: ${marker.title}`),
-    onCalloutTap: (marker: MapboxMarker) => alert(`UPDATED Marker callout tapped with title: ${marker.title}`)
+    onTap: (marker: MapboxMarker) => {console.log(`UPDATED Marker tapped with title: ${marker.title}`)},
+    onCalloutTap: (marker: MapboxMarker) => {alert(`UPDATED Marker callout tapped with title: ${marker.title}`)}
   })
 ```
 
@@ -726,8 +726,8 @@ The first person to tweet a snowman drawn with this function gets a T-shirt.
           }
         ]
       })
-      .then(result => console.log("Mapbox addPolygon done"))
-      .catch((error: string) => console.log("mapbox addPolygon error: " + error));
+      .then(result => {console.log("Mapbox addPolygon done")})
+      .catch((error: string) => {console.log("mapbox addPolygon error: " + error))};
 ```
 
 ### removePolygons

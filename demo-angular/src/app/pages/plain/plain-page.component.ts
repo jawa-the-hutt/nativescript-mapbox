@@ -17,15 +17,15 @@ export class PlainPageComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log( "PlainPageComponent::ngOnInit()" );
+    // console.log( "PlainPageComponent::ngOnInit()" );
   }
 
   ngOnChanges(): void {
-    console.log( "PlainPageComponent::ngOnChanges()" );
+    // console.log( "PlainPageComponent::ngOnChanges()" );
   }
 
   ngOnDestroy(): void {
-    console.log( "PlainPageComponent::ngOnDestroy()" );
+    // console.log( "PlainPageComponent::ngOnDestroy()" );
   }
 
   onDrawerButtonTap(): void {

@@ -24,8 +24,8 @@ import {
 * This saves and restores applications settings and state in a fashion
 * compatible with Ionic's Storage service.
 *
-* This saves key/value pairs into application settings and should be reserved 
-* for small bits of data. 
+* This saves key/value pairs into application settings and should be reserved
+* for small bits of data.
 */
 
 @Injectable()
@@ -47,7 +47,7 @@ export class SettingsService {
 
     let stringResult = getString( key );
 
-    console.log( "SettingsService:get(): got string result: '" + stringResult + "'" );
+    // console.log( "SettingsService:get(): got string result: '" + stringResult + "'" );
 
     // we may have a JSON document or a bare value or nothing
 
@@ -68,7 +68,7 @@ export class SettingsService {
   // -------------------------------------------------------------------
 
   /**
-  * set an object into the store. 
+  * set an object into the store.
   *
   * Sets an object into the store.
   *
@@ -108,8 +108,8 @@ export class SettingsService {
 
       break;
 
-    } 
- 
+    }
+
     setString( key, valueToSave );
 
     return true;
@@ -124,6 +124,6 @@ export class SettingsService {
   async remove( key ) {
     remove( key );
     return true;
-  } 
+  }
 
 } // END

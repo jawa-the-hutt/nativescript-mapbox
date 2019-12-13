@@ -1,13 +1,13 @@
 /**
 * Angular Map Component Implementation
-* 
+*
 * Implements a map directive for NativeScript Angular
 *
 * @author Yermo Lamers, Flying Brick Software, LLC https://github.com/Yermo
 */
 
 import {
-  Component, 
+  Component,
   OnInit,
   OnDestroy,
   ViewChild,
@@ -51,7 +51,7 @@ registerElement( "Mapbox", () => require("nativescript-mapbox").MapboxView);
 * <map id="<uniqid>"
 *   access_token="mapbox access token"
 *   style="mapbox style"
-*   fallbackLatitude="" 
+*   fallbackLatitude=""
 *   fallbackLongitude="">
 *   <location-map-button ></location-map-button>
 *   <track></track>
@@ -141,10 +141,10 @@ export class MapComponent implements OnInit, OnDestroy {
 
   @Input() fallbackLatitude : string;
   @Input() fallbackLongitude: string;
-  
+
   // whether or not to show the map
   //
-  // When navigating away from the page we destroy the map by 
+  // When navigating away from the page we destroy the map by
   // setting this to false (see the *ngIf on the StackLayout tag in the template above).
 
   shown : boolean = true;
@@ -161,7 +161,7 @@ export class MapComponent implements OnInit, OnDestroy {
   * @link https://github.com/EddyVerbruggen/nativescript-mapbox/issues/271
   */
 
-  constructor( 
+  constructor(
     public ngZone: NgZone,
     public viewContainerRef: ViewContainerRef,
 
@@ -171,7 +171,7 @@ export class MapComponent implements OnInit, OnDestroy {
     public debugService: DebugService
   ) {
 
-    console.log( "MapComponent::constructor(): top" );
+    // console.log( "MapComponent::constructor(): top" );
 
     this.isReady = false;
 
@@ -213,7 +213,7 @@ export class MapComponent implements OnInit, OnDestroy {
   // -------------------------------------------------------------
 
   /**
-  * unregister event handlers 
+  * unregister event handlers
   */
 
   unRegisterEventHandlers() {
@@ -230,7 +230,7 @@ export class MapComponent implements OnInit, OnDestroy {
   // ------------------------------------------------------------
 
   ngOnInit() {
-    console.log( "MapComponent::ngOnInit(): with style '" + this.style + "' and access token '" + this.access_token + "'" );
+    // console.log( "MapComponent::ngOnInit(): with style '" + this.style + "' and access token '" + this.access_token + "'" );
   }
 
   // -------------------------------------------------------------------------------
@@ -238,27 +238,27 @@ export class MapComponent implements OnInit, OnDestroy {
   /**
   * when the map is ready
   *
-  * The onMapReady() callback is invoked when the MapboxView class instance is ready. 
+  * The onMapReady() callback is invoked when the MapboxView class instance is ready.
   */
 
   onMapReady(args): void {
 
-    console.log( "MapComponent:onMapReady(): top" );
+    // console.log( "MapComponent:onMapReady(): top" );
 
     if ( ! this.isReady ) {
- 
-      console.log( "MapComponent:onMapReady(): First call to onMapReady()" );
+
+      // console.log( "MapComponent:onMapReady(): First call to onMapReady()" );
 
       this.isReady = true;
 
     } else {
 
-      console.error( "MapComponent:onMapReady(): duplicate call to onMapReady()" );
+      // console.error( "MapComponent:onMapReady(): duplicate call to onMapReady()" );
 
     }
 
     if ( this.mapboxView ) {
-      console.error( "MapComponent:onMapReady() callback called when we already have a valid mapboxView. isReady is:", this.isReady );
+      // // console.error( "MapComponent:onMapReady() callback called when we already have a valid mapboxView. isReady is:", this.isReady );
       return;
     }
 
@@ -268,7 +268,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
     this.declareReady();
 
-    console.log( "MapComponent:onMapReady(): after declareReady()" );
+    // console.log( "MapComponent:onMapReady(): after declareReady()" );
 
   } // end of onMapReady()
 
@@ -282,7 +282,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   async onPause() {
 
-    console.log( "MapComponent::onPause()" );
+    // console.log( "MapComponent::onPause()" );
     this.shown = false;
   }
 
@@ -293,7 +293,7 @@ export class MapComponent implements OnInit, OnDestroy {
   */
 
   onExit() {
-    console.log( "MapComponent::onExit()" );
+    // console.log( "MapComponent::onExit()" );
     this.shown = false;
   }
 
@@ -304,7 +304,7 @@ export class MapComponent implements OnInit, OnDestroy {
   */
 
   onResume() {
-    console.log( "MapComponent::onResume()" );
+    // console.log( "MapComponent::onResume()" );
     this.shown = true;
   }
 
@@ -328,7 +328,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   declareReady() {
 
-    console.log( "MapComponent:declareReady(): the map component is ready" );
+    // console.log( "MapComponent:declareReady(): the map component is ready" );
 
     this.isReady = true;
 
@@ -349,7 +349,7 @@ export class MapComponent implements OnInit, OnDestroy {
   @HostListener('unloaded')
   async ngOnDestroy() {
 
-    console.log( "MapComponent:ngOnDestroy()" );
+    // console.log( "MapComponent:ngOnDestroy()" );
 
     // this prevents memory leaks.
 
@@ -370,16 +370,16 @@ export class MapComponent implements OnInit, OnDestroy {
   /**
   * Save map settings
   *
-  * To support creating and destroying the map as necessary to work around issues with 
-  * the Mapbox Android SDK, we have to save the settings of the map so we can restore it 
-  * to the same state as it was when the app was paused. 
+  * To support creating and destroying the map as necessary to work around issues with
+  * the Mapbox Android SDK, we have to save the settings of the map so we can restore it
+  * to the same state as it was when the app was paused.
   */
 
   async saveMapState() {
 
-    let center = await this.mapboxView.getCenter();     // .catch( (error) => { console.error( "MapComponent:saveMapState(): unable to get map center" ); } );
-    let zoom = await this.mapboxView.getZoomLevel();    // .catch( (error) => { console.error( "MapComponent:saveMapState(): unable to get map zoom" ); } );
-    let viewport = await this.mapboxView.getViewport(); // .catch( (error) => { console.error( "MapComponent:saveMapState(): unable to get map viewport" ); } );
+    let center = await this.mapboxView.getCenter();     // .catch( (error) => { // console.error( "MapComponent:saveMapState(): unable to get map center" ); } );
+    let zoom = await this.mapboxView.getZoomLevel();    // .catch( (error) => { // console.error( "MapComponent:saveMapState(): unable to get map zoom" ); } );
+    let viewport = await this.mapboxView.getViewport(); // .catch( (error) => { // console.error( "MapComponent:saveMapState(): unable to get map viewport" ); } );
 
     let settings : any = {
       center: center,
@@ -387,7 +387,7 @@ export class MapComponent implements OnInit, OnDestroy {
       viewport: viewport
     };
 
-    console.log( "MapComponent:saveMapState(): got map settings:", settings );
+    // console.log( "MapComponent:saveMapState(): got map settings:", settings );
 
     await this.settingsService.set( 'mapSettings', settings );
 
@@ -405,11 +405,11 @@ export class MapComponent implements OnInit, OnDestroy {
 
     let settings = await this.settingsService.get( 'mapSettings' );
 
-    console.log( "MapComponent:restoreMapState(): got settings :", settings );
+    // console.log( "MapComponent:restoreMapState(): got settings :", settings );
 
     if ( settings ) {
 
-      console.log( "MapComponent:restoreMapState(): animating camera" );
+      // console.log( "MapComponent:restoreMapState(): animating camera" );
 
       await this.mapboxView.animateCamera({
         target: {
@@ -438,7 +438,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   onMoveBegin( event ) : void {
 
-    console.log( "MapComponent::onMoveBegin()" );
+    // console.log( "MapComponent::onMoveBegin()" );
 
     this.events.publish( "map:moveBegin" );
 
@@ -452,14 +452,14 @@ export class MapComponent implements OnInit, OnDestroy {
   * @todo FIXME: This callback apparently does not work when the location is first being granted.
   */
 
-  onLocationPermissionGranted() { 
-    console.log( "MapComponent:onLocationPermissionGranted(): callback" );
+  onLocationPermissionGranted() {
+    // console.log( "MapComponent:onLocationPermissionGranted(): callback" );
   }
 
   // --------------------------------------
 
-  onLocationPermissionDenied() { 
-    console.log( "MapComponent:onLocationPermissionDenied(): callback" );
+  onLocationPermissionDenied() {
+    // console.log( "MapComponent:onLocationPermissionDenied(): callback" );
 
     return dialogs.alert({
       title: "Location Denied",
@@ -474,12 +474,12 @@ export class MapComponent implements OnInit, OnDestroy {
   /**
   * Center the map on a location
   *
-  * Move the map to center on the given coordinates. 
+  * Move the map to center on the given coordinates.
   */
 
   centerOn( location: any ) {
 
-    console.log( "MapComponent::centerOn(): top" );
+    // console.log( "MapComponent::centerOn(): top" );
 
     this.mapboxView.setCenter({
       lat: location.latitude,
@@ -520,11 +520,11 @@ export class MapComponent implements OnInit, OnDestroy {
 
   addTestCircle() {
 
-    console.log( "MapComponent:addTestCircle(): Adding test circle" );
+    // console.log( "MapComponent:addTestCircle(): Adding test circle" );
 
-    const metersToPixelsAtMaxZoom = ( radius, latitude ) => radius / 0.075 / Math.cos( latitude * Math.PI / 180);    
+    const metersToPixelsAtMaxZoom = ( radius, latitude ) => radius / 0.075 / Math.cos( latitude * Math.PI / 180);
 
-    const pixels = metersToPixelsAtMaxZoom( 500,  39.007846 ); 
+    const pixels = metersToPixelsAtMaxZoom( 500,  39.007846 );
 
     let style = {
       "id": 'testCircle',
@@ -539,7 +539,7 @@ export class MapComponent implements OnInit, OnDestroy {
             "coordinates": [ -76.947041, 39.007846 ]
           }
         }
-      }, 
+      },
       "paint": {
         "circle-radius": {
           "stops": [
@@ -552,18 +552,18 @@ export class MapComponent implements OnInit, OnDestroy {
         'circle-color': '#ed6498',
         'circle-stroke-width': 2,
         'circle-stroke-color': '#ed6498'
-      } 
+      }
     };
 
-    this.mapboxView.addLayer( 
+    this.mapboxView.addLayer(
       style
     ).catch( ( error ) => {
-      console.error("MapComponent:addTestCircle(): addTestCircle threw an error:", error );
+      // console.error("MapComponent:addTestCircle(): addTestCircle threw an error:", error );
     });
 
     this.mapboxView.onMapEvent( 'click', 'testCircle', ( point ) => {
 
-      console.log( "MapComponent:addTestCircle(): circle clicked" );
+      // console.log( "MapComponent:addTestCircle(): circle clicked" );
 
       // mandatory
 
